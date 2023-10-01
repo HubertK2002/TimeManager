@@ -1,12 +1,23 @@
 import React, { useRef, useEffect } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import {TimeBlock, generateTimeBlocks} from '../Views/TimeBlock'; // Asumując, że TimeBlock.js jest w tym samym folderze
+import {TimeBlock, generateTimeBlocks} from '../Views/TimeBlock'; 
+import { useNavigation } from '@react-navigation/native';
+import { getDay, format  } from 'date-fns';
+import { pl } from 'date-fns/locale';
 
 const WeekActivities = () => {
+    const now = new Date();
+    const formattedDate = format(now, 'yyyy-MM-dd');
+    const day = format(now, 'EEEE', { locale: pl });;
     const { blocks, currentIndex } = generateTimeBlocks();
     const scrollViewRef = useRef(null);
+    const navigation = useNavigation();
     useEffect(() => {
-        // Zakładając, że wysokość każdego TimeBlock wynosi 50 (możesz dostosować tę wartość)
+
+        navigation.setOptions({
+            title: formattedDate + " " + day,
+          });
+
         const yOffset = currentIndex * 50;
     
         scrollViewRef.current?.scrollTo({ y: yOffset, animated: false });
