@@ -9,6 +9,10 @@ function HomeScreen({ navigation }) {
         title="Dodaj aktywność"
         onPress={() => navigation.navigate('Details')}
       />
+       <Button
+        title="Pokaż aktywności"
+        onPress={() => navigation.navigate('WeekActivities')}
+      />
     </View>
   );
 }
