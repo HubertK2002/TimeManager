@@ -26,11 +26,20 @@ const WeekActivities = () => {
         onMoveShouldSetPanResponder: (evt, gestureState) => {
           const dx = Math.abs(gestureState.dx);
           const dy = Math.abs(gestureState.dy);
+
+          const angle = Math.atan(dy/dx) * 180 / Math.PI;
           
-          if (dx > dy && dx > 10) { // Dodatkowy warunek, aby uniknąć fałszywego wyzwalania
+          if (dx >= 15 && angle <  45) { // Dodatkowy warunek, aby uniknąć fałszywego wyzwalania
             setIsDragging(true);
             const newDate = subDays(currentDate, 1 * gestureState.dx / dx);
             setCurrentDate(newDate);
+            return true;
+          } else if(dx < 15 && angle <  45 ) setIsDragging(true);
+          else if (angle < 60 ) {
+            setIsDragging(true);
+            return true;
+          }
+          else if(angle > 60) {
             return true;
           }
           return false;
@@ -38,7 +47,7 @@ const WeekActivities = () => {
         onPanResponderRelease: () => {
             setTimeout(() => {
                 setIsDragging(false);
-              }, 100);
+              }, 200);
           
         },
         onPanResponderTerminate: () => {
