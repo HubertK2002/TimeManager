@@ -28,7 +28,7 @@ const generateTimeBlocks = () => {
     let currentIndex = null;
     for (let hour = 0; hour < 24; hour++) {
       for (let minute = 0; minute < 60; minute += 15) {
-        if (currentIndex === null && hour >= currentHour && minute >= currentMinute) 
+        if ( hour == currentHour && minute <= currentMinute) 
             currentIndex = blocks.length;
         const hourStr = hour.toString().padStart(2, '0');
         const minuteStr = minute.toString().padStart(2, '0');
