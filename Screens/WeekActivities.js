@@ -36,7 +36,10 @@ const WeekActivities = () => {
           return false;
         },
         onPanResponderRelease: () => {
-          setIsDragging(false);
+            setTimeout(() => {
+                setIsDragging(false);
+              }, 100);
+          
         },
         onPanResponderTerminate: () => {
           setIsDragging(false);
