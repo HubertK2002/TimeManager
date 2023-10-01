@@ -20,6 +20,7 @@ const handleSwipeRight = () => {
 
 const WeekActivities = () => {
     const [isDragging, setIsDragging] = useState(false);
+    const [currentDate, setCurrentDate] = useState(new Date());
     const pan = useRef(new Animated.ValueXY()).current;
     const panResponder = PanResponder.create({
         onMoveShouldSetPanResponder: (evt, gestureState) => {
@@ -28,7 +29,8 @@ const WeekActivities = () => {
           
           if (dx > dy && dx > 10) { // Dodatkowy warunek, aby uniknąć fałszywego wyzwalania
             setIsDragging(true);
-            console.log("gest");
+            const newDate = subDays(currentDate, 1 * gestureState.dx / dx);
+            setCurrentDate(newDate);
             return true;
           }
           return false;
@@ -40,7 +42,6 @@ const WeekActivities = () => {
           setIsDragging(false);
         },
       });
-    const [currentDate, setCurrentDate] = useState(new Date());
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
     const day = format(currentDate, 'EEEE', { locale: pl });;
     const { blocks, currentIndex } = generateTimeBlocks();
@@ -55,7 +56,7 @@ const WeekActivities = () => {
         const yOffset = currentIndex * 50;
     
         scrollViewRef.current?.scrollTo({ y: yOffset, animated: false });
-      }, []);
+      }, [currentDate]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
