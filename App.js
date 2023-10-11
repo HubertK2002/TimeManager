@@ -8,6 +8,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import HomeScreen from './Screens/HomeScreen';
 import DetailsScreen from './Screens/DetailsScreen';
 import WeekActivities from './Screens/WeekActivities';
+import TokensScreen from './Screens/Tokens';
 
 const Stack = createStackNavigator();
 
@@ -18,6 +19,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />
         <Stack.Screen name="WeekActivities" component={WeekActivities} />
+        <Stack.Screen name="Tokens" component={TokensScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
