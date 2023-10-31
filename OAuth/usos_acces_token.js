@@ -6,14 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import React, {  useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-
-
-
-
-export const useUsosAuth = () => {
-    const navigation = useNavigation();
-
+export const handleAccessTokenRequest = () => {
+    console.log('hello');
     const parseQueryParams = (query) => {
         const keyValuePairs = query.split('&');
         const params = {};
@@ -33,10 +27,7 @@ export const useUsosAuth = () => {
             console.log(cos);
             if(path === 'oauth-callback')
             {
-                navigation.navigate('Tokens', {
-                    oauthToken: queryParams.oauth_token,
-                    oauthTokenSecret: queryParams.oauth_token_secret
-                });
+                console.log('hejka');
             }
             
         };
@@ -54,13 +45,13 @@ export const useUsosAuth = () => {
             return () => {
                 //Linking.removeEventListener('url', handleOpenURL);
             };
-}, [navigation]);
+}, []);
 
     // Tworzenie instancji OAuth
     const oauth = OAuth({
         consumer: {
-            key: 'UmZNUsQgxVPx2sLvsXHz',
-            secret: 'A2EWyBSTMjQyYDv6mHsfjnZTF4b5579c9BXKTaED',
+            key: 'JFvr37ZNurr7DQg8XBMs',
+            secret: 'JfaNuxCDqU3aCY7vZYuDttU6xFTq2VUNc3EpfF2p',
         },
         signature_method: 'HMAC-SHA1',
         hash_function(base_string, key) {
@@ -69,36 +60,37 @@ export const useUsosAuth = () => {
     });
 
     const request_data = {
-        url: 'https://apps.usos.pw.edu.pl/services/oauth/request_token',
+        url: 'https://apps.usos.pw.edu.pl/services/oauth/access_token',
         method: 'POST',
-        //data: { oauth_callback: Linking.makeUrl('/oauth-callback') },
+        data: { oauth_callback: Linking.makeUrl('/oauth-callback') },
     };
 
-    const initiateAuthorization = () => {
+    const access_tok = () => {
+        
         axios({
             url: request_data.url,
             method: request_data.method,
             headers: oauth.toHeader(oauth.authorize(request_data)),
         })
         .then(response => {
+            console.log('hej442');
             const data = parseQueryParams(response.data);
+            console.log('hej332');
             const oauthToken = data.oauth_token;
             const oauthTokenSecret = data.oauth_token_secret;
-            AsyncStorage.setItem('USOS_TOKEN', oauthToken);
-            AsyncStorage.setItem('USOS_SECRET', oauthTokenSecret);
+            AsyncStorage.setItem('USOS_ACCESS_TOKEN', oauthToken);
+            AsyncStorage.setItem('USOS__ACCESS_SECRET', oauthTokenSecret);
             
             console.log('Otrzymany request token:', oauthToken);
             console.log('Otrzymany request token secret:', oauthTokenSecret);
             
-            const authorizationUrl = `https://apps.usos.pw.edu.pl/services/oauth/authorize?oauth_token=${oauthToken}&scope=offline_access&oauth_callback=${encodeURIComponent(Linking.makeUrl('/oauth-callback'))}`;
-            Linking.openURL(authorizationUrl); // Otwórz URL autoryzacji w przeglądarce
         })
         .catch(error => {
-            console.error('Błąd podczas uzyskiwania request token:', error);
+            console.error(error)
         });
     };
 
     return {
-        initiateAuthorization
+        access_tok
     };
 };

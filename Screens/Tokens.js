@@ -22,7 +22,7 @@ useEffect(() => {
   }, []);
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Oauth Token: {token}</Text>
+      <Text>Oauth Token: {route.params.oauthToken}</Text>
       <Text>Oauth Token Secret:</Text>
       <Text> {secret}</Text>
     </View>
