@@ -31,12 +31,10 @@ export const useUsosAuth = () => {
             const { path, queryParams } = Linking.parse(event.url);
             var cos = path;
             console.log(cos);
-            if(path === 'oauth-callback')
+            if(path === 'oauth')
             {
-                navigation.navigate('Tokens', {
-                    oauthToken: queryParams.oauth_token,
-                    oauthTokenSecret: queryParams.oauth_token_secret
-                });
+                AsyncStorage.setItem('VERIFIER', queryParams.oauth_verifier);
+                navigation.navigate('RequestScreen');
             }
             
         };
@@ -71,7 +69,7 @@ export const useUsosAuth = () => {
     const request_data = {
         url: 'https://apps.usos.pw.edu.pl/services/oauth/request_token',
         method: 'POST',
-        //data: { oauth_callback: Linking.makeUrl('/oauth-callback') },
+        data: { oauth_callback: Linking.makeUrl('/oauth') },
     };
 
     const initiateAuthorization = () => {

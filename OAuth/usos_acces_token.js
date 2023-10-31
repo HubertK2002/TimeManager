@@ -7,6 +7,7 @@ import React, {  useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const handleAccessTokenRequest = () => {
+    const navigation = useNavigation();
     console.log('hello');
     const parseQueryParams = (query) => {
         const keyValuePairs = query.split('&');
@@ -27,7 +28,9 @@ export const handleAccessTokenRequest = () => {
             console.log(cos);
             if(path === 'oauth-callback')
             {
-                console.log('hejka');
+                AsyncStorage.setItem('VERIFIER', queryParams.oauth_verifier);
+                console.log(queryParams.oauth_verifier);
+                navigation.navigate('RequestScreen');
             }
             
         };
