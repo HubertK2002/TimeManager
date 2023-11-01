@@ -75,8 +75,6 @@ class Request
   Authorize(funkcja) {
     var parameters = {
       oauth_token: this.requestToken,
-      scope: "offline_access",
-      oauth_callback: Linking.makeUrl('/oauth')
     }
     var url = this.makeURL(this.authhref, parameters);
     console.log(url);
