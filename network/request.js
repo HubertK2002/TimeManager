@@ -23,7 +23,10 @@ class Request_data {
   constructor(href, callback_url)
   {
     this.url = href,
-    this.data =  { oauth_callback: Linking.makeUrl(callback_url) };
+    this.data =  { 
+      oauth_callback: Linking.makeUrl(callback_url),
+     };
+     this.url += '?scopes=' + encodeURIComponent("offline_access");
   }
 };
 
@@ -66,7 +69,7 @@ class Request
   }
   RequestToken(funkcja) {
     var oauth = new Auth({key: this.client_key, secret: this.client_secret});
-    var header = new RequestHeader( new Request_data(this.requesthref,"/oauth-callback"), oauth);
+    var header = new RequestHeader( new Request_data(this.requesthref,"/oauth"), oauth);
     axios(header).then(response => this.RequestTokenCallback(response, funkcja)).catch(error => this.RequestCatch(error));
   }
   Authorize(funkcja) {
